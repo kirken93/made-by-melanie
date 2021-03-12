@@ -1,18 +1,41 @@
 import Link from "next/link";
 import fs from "fs";
 import matter from "gray-matter";
+import styled from "styled-components";
+import UnstyledLink from "../components/styled/UnstyledLink";
+
+const ProductsContainer = styled.div`
+  display: grid;
+  grid-template-columns 1fr 1fr;
+  grid-gap: 0.5rem;
+`;
+
+const Container = styled.div`
+  background-color: white;
+  padding: 1rem 2rem;
+  margin: 0.5rem 0;
+  min-height: 200px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+`;
+
+const renderProduct = (product) => {
+  return <Link href={product.slug} key={product.slug}>
+    <UnstyledLink>
+      <Container>
+        <h1>{product.name}</h1>
+      </Container>
+    </UnstyledLink>
+  </Link>;
+};
 
 function HomePage(props) {
-  const { products } = props;
-  return products.map((product, i) => {
-    return <div key={i}>
-      <Link href={product.slug}>
-        <a>
-          <h1>{product.name}</h1>
-        </a>
-      </Link>
-    </div>;
-  });
+  return <ProductsContainer>
+    {props.products.map(renderProduct)}
+  </ProductsContainer>
 }
 
 export const getStaticProps = async () => {

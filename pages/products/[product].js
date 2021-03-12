@@ -1,17 +1,34 @@
 import fs from "fs";
 import matter from "gray-matter";
 import marked from "marked";
+import styled from "styled-components";
+
+const Container = styled.div`
+  background: white;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+`;
+
+const Price = styled.span`
+  font-size: 2rem;
+  padding: 0.25rem 1rem;
+  border-radius: 5px;
+  background: #ddd6f3;
+  color: white;
+  margin-bottom: 1rem;
+  display: inline-block;
+`;
 
 const Product = ({ product: { data, content } }) => {
   let price = null;
   if (data.price) {
-    price = <p>${data.price/100}</p>;
+    price = <Price>${data.price/100}</Price>;
   }
-  return <div>
+  return <Container>
     <h1>{data.name}</h1>
     {price}
     <div dangerouslySetInnerHTML={{ __html: marked(content)}} />
-  </div>;
+  </Container>;
 };
 
 export const getStaticPaths = () => {
