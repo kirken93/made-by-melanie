@@ -3,6 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import styled from "styled-components";
 import UnstyledLink from "../components/styled/UnstyledLink";
+import useCart from "../hooks/useCart";
 
 const ProductsContainer = styled.div`
   display: grid;
@@ -22,21 +23,29 @@ const Container = styled.div`
   }
 `;
 
-const renderProduct = (product) => {
-  return <Link href={product.slug} key={product.slug}>
+const renderProduct = (product, add) => {
+  const handleClick = (event) => {
+    event.stopPropagation();
+    add(product.id);
+  };
+
+  return <Link href={product.slug} key={product.id}>
     <UnstyledLink>
       <Container>
         <h1>{product.name}</h1>
+        <button onClick={handleClick}>Add to cart</button>
       </Container>
     </UnstyledLink>
   </Link>;
 };
 
-function HomePage(props) {
+const HomePage = (props) => {
+  const { cart, addToCart, removeFromCart } = useCart();
+  console.log(cart);
   return <ProductsContainer>
-    {props.products.map(renderProduct)}
+    {props.products.map(p => renderProduct(p, addToCart))}
   </ProductsContainer>
-}
+};
 
 export const getStaticProps = async () => {
   const directory = `${process.cwd()}/content`;
