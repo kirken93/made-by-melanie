@@ -2,12 +2,13 @@ import { createContext, useState, useEffect } from "react";
 export const Context = createContext();
 
 const Cart = ({children}) => {
+  const getInitialCart = () => JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState([]);
 
   // localStorage isn't available on server side, so need to use effect to load initial cart
   // after mount
   useEffect(() => {
-    const initialCart = () => JSON.parse(localStorage.getItem("cart"));
+    const initialCart = getInitialCart();
     if (initialCart) {
       setCart(initialCart);
     }
