@@ -90,7 +90,7 @@ const Cart = () => {
       </Ul>
       <Total>
         <span>Total</span>
-        <span>${cart.map(item => item.qty*item.price/100).reduce((a, b) => a + b)}</span>
+        <span>${cart.map(item => item.qty*item.price/100).reduce((a, b) => a + b, 0)}</span>
       </Total>
       <Button>Checkout</Button>
     </Content>
