@@ -5,6 +5,7 @@ const Cart = ({children}) => {
   const getInitialCart = () => JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [total, setTotal] = useState(0);
 
   // localStorage isn't available on server side, so need to use effect to load initial cart
   // after mount
@@ -18,6 +19,7 @@ const Cart = ({children}) => {
   // update cart in localStorage when it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
+    setTotal(cart.map(item => item.qty*item.price/100).reduce((a, b) => a + b, 0));
   }, [cart]);
 
   const openCart = () => {
@@ -40,15 +42,22 @@ const Cart = ({children}) => {
 
   const removeFromCart = (id) => {
     setCart(cart.filter(i => i.id !== id));
-  }
+  };
+
+  const clearCart = () => {
+    localStorage.removeItem("cart");
+    setCart([]);
+  };
 
   const exposed = {
     cart,
+    total,
     isOpen,
     addToCart,
     removeFromCart,
     openCart,
-    closeCart
+    closeCart,
+    clearCart
   };
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 };

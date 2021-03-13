@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import { FiX } from "react-icons/fi";
 import useCart from "../hooks/useCart";
@@ -72,7 +73,13 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart, isOpen, closeCart } = useCart();
+  const { cart, total, isOpen, closeCart } = useCart();
+  const router = useRouter();
+
+  const navigateToCheckout = () => {
+    closeCart();
+    router.push("/checkout");
+  };
 
   return <Container isOpen={isOpen}>
     <XContainer>
@@ -80,19 +87,25 @@ const Cart = () => {
     </XContainer>
     <Content>
       <Title>Cart</Title>
-      <Ul>
-        {cart.map(item => {
-          return <Item key={item.id}>
-            <span>{item.qty}x {item.name}</span>
-            <span>${item.qty*item.price/100}</span>
-          </Item>;
-        })}
-      </Ul>
-      <Total>
-        <span>Total</span>
-        <span>${cart.map(item => item.qty*item.price/100).reduce((a, b) => a + b, 0)}</span>
-      </Total>
-      <Button>Checkout</Button>
+      {cart.length > 0
+        ? (<>
+          <Ul>
+            {cart.map(item => {
+              return <Item key={item.id}>
+                <span>{item.qty}x {item.name}</span>
+                <span>${item.qty*item.price/100}</span>
+              </Item>;
+            })}
+          </Ul>
+          <Total>
+            <span>Total</span>
+            <span>${total}</span>
+          </Total>
+          <Button onClick={navigateToCheckout}>Checkout</Button>
+        </>) : (
+          <p>Your cart is empty</p>
+        )}
+      
     </Content>
   </Container>;
 }

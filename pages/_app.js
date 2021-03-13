@@ -9,6 +9,7 @@ const Container = styled.div`
   background: linear-gradient(to right, #faaca8, #ddd6f3);
   font-family: 'Shadows Into Light', cursive;
   color: #444;
+  min-height:100vh;
 `;
 
 const Page = styled.div`
