@@ -25,6 +25,7 @@ const NavItems = styled.div`
 
 const NavItem = styled.div`
   padding: 1rem;
+  font-size: 1.5rem;
 `;
 
 const ShoppingCart = styled(FiShoppingCart)`
@@ -50,6 +51,11 @@ const Navbar = () => {
         <NavItem>
           <Link href="/about">
             <UnstyledLink>About</UnstyledLink>
+          </Link>
+        </NavItem>
+        <NavItem>
+          <Link href="/contact">
+            <UnstyledLink>Contact</UnstyledLink>
           </Link>
         </NavItem>
       </NavItems>
