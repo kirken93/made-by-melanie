@@ -26,7 +26,7 @@ const Container = styled.div`
 const renderProduct = (product, add) => {
   const handleClick = (event) => {
     event.stopPropagation();
-    add(product.id);
+    add(product);
   };
 
   return <Link href={product.slug} key={product.id}>

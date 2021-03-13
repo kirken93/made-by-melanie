@@ -20,13 +20,9 @@ const Price = styled.span`
 `;
 
 const Product = ({ product: { data, content } }) => {
-  let price = null;
-  if (data.price) {
-    price = <Price>${data.price/100}</Price>;
-  }
   return <Container>
     <h1>{data.name}</h1>
-    {price}
+    <Price>${data.price/100}</Price>
     <div dangerouslySetInnerHTML={{ __html: marked(content)}} />
   </Container>;
 };
