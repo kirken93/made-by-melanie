@@ -29,7 +29,9 @@ exports.handler = async (event, context) => {
     };
   });
 
-  console.log(cartWithProducts);
+  const key = process.env.STRIPE_PUBLIC_KEY;
+
+  console.log(key);
 
   return {
     statusCode: 200,
