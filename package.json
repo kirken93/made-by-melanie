@@ -12,6 +12,7 @@
   "author": "Megan Kirkbride",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "gray-matter": "^4.0.2",
     "marked": "^2.0.1",
     "next": "^10.0.8",
