@@ -1,4 +1,4 @@
-import Page from "../components/styled/Page"
+import Page from "../../components/styled/Page"
 
 const Success = () => {
   return <Page>
@@ -6,7 +6,7 @@ const Success = () => {
     <p>
       Thank you for contacting me!
       I look forward to reading your message.
-      </p>
+    </p>
   </Page>;
 };
 

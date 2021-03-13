@@ -1,9 +1,9 @@
-import Page from "../components/styled/Page";
+import Page from "../../components/styled/Page";
 
 const Contact = () => {
   return <Page>
     <h2>Contact Me</h2>
-    <form name="contact" method="POST" data-netlify={true} action="/contact-success">
+    <form name="contact" method="POST" data-netlify={true} action="/contact/success">
       <div>
         <label htmlFor="name">Your Name:</label>
         <input type="text" name="name" id="name" />
