@@ -17,10 +17,19 @@ const Container = styled.div`
   margin: 0.5rem 0;
   min-height: 200px;
   transition: transform 0.3s;
+  position: relative;
 
   &:hover {
     transform: scale(1.02);
   }
+`;
+
+const Price = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 2rem;
+  font-size: 3rem;
 `;
 
 const renderProduct = (product, add) => {
@@ -34,6 +43,9 @@ const renderProduct = (product, add) => {
       <Container>
         <h1>{product.name}</h1>
         <button onClick={handleClick}>Add to cart</button>
+        <Price>
+          ${product.price/100}
+        </Price>
       </Container>
     </UnstyledLink>
   </Link>;
