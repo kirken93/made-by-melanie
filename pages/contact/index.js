@@ -1,5 +1,7 @@
 import Page from "../../components/styled/Page";
 import styled from "styled-components";
+import { FiFacebook, FiMail, FiPhone } from "react-icons/fi";
+import UnstyledLink from "../../components/styled/UnstyledLink";
 
 const InputContainer = styled.div`
   padding: 1rem 0;
@@ -26,6 +28,13 @@ const Submit = styled.button`
   }
 `;
 
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 3rem;
+  margin-top: 2rem;
+`;
+
 const Contact = () => {
   return <Page>
     <h2>Contact Me</h2>
@@ -47,6 +56,17 @@ const Contact = () => {
         <Submit type="submit">Submit</Submit>
       </SubmitContainer>
     </form>
+    <IconContainer>
+      <UnstyledLink href="https://www.facebook.com/craftsmadebymelanie" target="_blank">
+        <FiFacebook />
+      </UnstyledLink>
+      <UnstyledLink href="mailto:madebymelanie19@gmail.com" target="_blank">
+        <FiMail />
+      </UnstyledLink>
+      <UnstyledLink href="tel:574-329-3339" target="_blank">
+        <FiPhone />
+      </UnstyledLink>
+    </IconContainer>
   </Page>;
 };
 
