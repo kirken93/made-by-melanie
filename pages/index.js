@@ -41,7 +41,6 @@ const renderProduct = (product, add) => {
 
 const HomePage = (props) => {
   const { cart, addToCart, removeFromCart } = useCart();
-  console.log(cart);
   return <ProductsContainer>
     {props.products.map(p => renderProduct(p, addToCart))}
   </ProductsContainer>
