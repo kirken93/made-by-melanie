@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { FiX } from "react-icons/fi";
+import { FiX, FiPlus, FiMinus } from "react-icons/fi";
 import useCart from "../hooks/useCart";
+import Link from "next/link";
+import UnsytledLink from "../components/styled/UnstyledLink";
 
 const Container = styled.div`
   position: fixed;
@@ -45,10 +47,31 @@ const Ul = styled.ul`
 
 const Item = styled.li`
   list-style: none;
-  display: flex;
-  justify-content: space-between;
   border-bottom: 1px solid #efefef;
   margin-bottom: 0.25rem;
+`;
+
+const ItemRow = styled.span`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const QuantityButtons = styled.span`
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
+`;
+
+const QuantityButton = styled.button`
+  border: 0;
+  background: none;
+  outline: 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 0.5rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Total = styled.p`
@@ -73,7 +96,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart, total, isOpen, closeCart } = useCart();
+  const { cart, total, isOpen, closeCart, addToCart, reduceProductQuantity, removeFromCart } = useCart();
   const router = useRouter();
 
   const navigateToCheckout = () => {
@@ -92,8 +115,23 @@ const Cart = () => {
           <Ul>
             {cart.map(item => {
               return <Item key={item.id}>
-                <span>{item.qty}x {item.name}</span>
-                <span>${item.qty*item.price/100}</span>
+                <ItemRow>
+                  <span>
+                    {item.qty}x
+                    {" "}
+                    <Link href={item.slug}>
+                      <UnsytledLink>
+                        {item.name}
+                      </UnsytledLink>
+                    </Link>
+                  </span>
+                  <span>${item.qty*item.price/100}</span>
+                </ItemRow>
+                <QuantityButtons>
+                  <QuantityButton type="button" onClick={() => addToCart(item)}><FiPlus /></QuantityButton>
+                  <QuantityButton type="button" onClick={() => reduceProductQuantity(item)}><FiMinus /></QuantityButton>
+                  <QuantityButton type="button" onClick={() => removeFromCart(item)}><FiX /></QuantityButton>
+                </QuantityButtons>
               </Item>;
             })}
           </Ul>

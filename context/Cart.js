@@ -40,8 +40,20 @@ const Cart = ({children}) => {
     }
   };
 
-  const removeFromCart = (id) => {
-    setCart(cart.filter(i => i.id !== id));
+  const reduceProductQuantity = (product) => {
+    const item = cart.find(i => i.id === product.id);
+    if (item) {
+      if (item.qty > 1) {
+        item.qty -= 1;
+        setCart([...cart]);
+      } else {
+        removeFromCart(product);
+      }
+    }
+  };
+
+  const removeFromCart = (product) => {
+    setCart(cart.filter(i => i.id !== product.id));
   };
 
   const clearCart = () => {
@@ -54,6 +66,7 @@ const Cart = ({children}) => {
     total,
     isOpen,
     addToCart,
+    reduceProductQuantity,
     removeFromCart,
     openCart,
     closeCart,
