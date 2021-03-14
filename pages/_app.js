@@ -3,13 +3,13 @@ import { Normalize } from "styled-normalize";
 import Navbar from "../components/Navbar"
 import Cart from "../components/Cart"
 import CartProvider from "../context/Cart";
+import Head from "next/head";
 
 const Container = styled.div`
-  @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
   background: linear-gradient(to right, #faaca8, #ddd6f3);
-  font-family: 'Shadows Into Light', cursive;
+  font-family: 'Shadows Into Light Two', cursive;
   color: #444;
-  min-height:100vh;
+  min-height: 100vh;
 `;
 
 const Page = styled.div`
@@ -20,6 +20,13 @@ const Page = styled.div`
 
 function MyApp({ Component, pageProps }) {
   return <CartProvider>
+    <Head>
+      <meta charset="utf-8"/>
+      <meta name="description" content="Made by Melanie makes custom homemade crafts."/>
+      <link rel="preconnect" href="https://fonts.gstatic.com"/>
+      <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet"/>
+      <title>Made by Melanie</title>
+    </Head>
     <Container>
       <Normalize />
       <Navbar />

@@ -2,6 +2,7 @@ import Page from "../components/styled/Page";
 import useCart from "../hooks/useCart";
 import styled from "styled-components";
 import axios from "axios";
+import Head from "next/head";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Ul = styled.ul`
@@ -49,6 +50,9 @@ const Checkout = () => {
   };
 
   return <Page>
+    <Head>
+      <title>Checkout | Made by Melanie</title>
+    </Head>
     <h2>Checkout</h2>
     {cart.length > 0
       ? (<>

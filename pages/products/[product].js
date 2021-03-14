@@ -3,6 +3,7 @@ import matter from "gray-matter";
 import marked from "marked";
 import styled from "styled-components";
 import Page from "../../components/styled/Page";
+import Head from "next/head";
 
 const Price = styled.span`
   font-size: 2rem;
@@ -16,6 +17,9 @@ const Price = styled.span`
 
 const Product = ({ product: { data, content } }) => {
   return <Page>
+    <Head>
+      <title>{data.name} | Made by Melanie</title>
+    </Head>
     <h1>{data.name}</h1>
     <Price>${data.price/100}</Price>
     <div dangerouslySetInnerHTML={{ __html: marked(content)}} />

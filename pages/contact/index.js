@@ -2,6 +2,7 @@ import Page from "../../components/styled/Page";
 import styled from "styled-components";
 import { FiFacebook, FiMail, FiPhone } from "react-icons/fi";
 import UnstyledLink from "../../components/styled/UnstyledLink";
+import Head from "next/head";
 
 const InputContainer = styled.div`
   padding: 1rem 0;
@@ -37,6 +38,9 @@ const IconContainer = styled.div`
 
 const Contact = () => {
   return <Page>
+    <Head>
+      <title>Contact Made by Melanie</title>
+    </Head>
     <h2>Contact Me</h2>
     <form name="contact" method="POST" data-netlify={true} action="/contact/success">
       <input type="hidden" name="form-name" value="contact" />
