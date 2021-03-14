@@ -117,13 +117,7 @@ const Cart = () => {
               return <Item key={item.id}>
                 <ItemRow>
                   <span>
-                    {item.qty}x
-                    {" "}
-                    <Link href={item.slug}>
-                      <UnsytledLink>
-                        {item.name}
-                      </UnsytledLink>
-                    </Link>
+                    {item.qty}x {item.name}
                   </span>
                   <span>${item.qty*item.price/100}</span>
                 </ItemRow>
@@ -146,6 +140,6 @@ const Cart = () => {
       
     </Content>
   </Container>;
-}
+};
 
 export default Cart;
