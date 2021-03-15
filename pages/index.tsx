@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import styled from "styled-components";
 import UnstyledLink from "../components/styled/UnstyledLink";
 import useCart from "../hooks/useCart";
+import { GetStaticProps } from "next";
 
 const ProductsContainer = styled.div`
   display: grid;
@@ -32,8 +33,8 @@ const Price = styled.div`
   font-size: 3rem;
 `;
 
-const renderProduct = (product, add) => {
-  const handleClick = (event) => {
+const renderProduct = ({ product, add }: { product: any; add; }) => {
+  const handleClick = (event: { stopPropagation: () => void; }) => {
     event.stopPropagation();
     add(product);
   };
@@ -51,14 +52,14 @@ const renderProduct = (product, add) => {
   </Link>;
 };
 
-const HomePage = (props) => {
-  const { cart, addToCart, removeFromCart } = useCart();
+const HomePage = (props: { products: any[]; }) => {
+  const { addToCart } = useCart();
   return <ProductsContainer>
-    {props.products.map(p => renderProduct(p, addToCart))}
+    {props.products.map(p => renderProduct({ product: p, add: addToCart }))}
   </ProductsContainer>
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps : GetStaticProps = async () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
   const products = filenames.map(filename => {

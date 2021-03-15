@@ -6,6 +6,7 @@ import Page from "../../components/styled/Page";
 import Head from "next/head";
 import useCart from "../../hooks/useCart";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
+import { GetStaticProps, GetStaticPaths } from "next";
 
 const Price = styled.span`
   font-size: 2rem;
@@ -34,10 +35,10 @@ const QuantityButton = styled.button`
   }
 `;
 
-const Product = ({ product: {data, content } }) => {
+const Product = ({ product: { data, content } }) => {
   const { cart, addToCart, reduceProductQuantity, removeFromCart } = useCart();
 
-  const productInCart = cart.find(p => p.id === data.id);
+  const productInCart = cart.find((p: { id: number; }) => p.id === data.id);
   const qtyInCart = productInCart ? productInCart.qty : 0;
 
   return <Page>
@@ -67,7 +68,7 @@ const Product = ({ product: {data, content } }) => {
   </Page>;
 };
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   // product pages to generate
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
@@ -86,7 +87,7 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const productName = context.params.product;
   const filePath = `${process.cwd()}/content/${productName}.md`;
   const fileContent = fs.readFileSync(filePath).toString();
