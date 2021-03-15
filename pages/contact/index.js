@@ -1,8 +1,8 @@
-import Page from "../../components/styled/Page";
 import styled from "styled-components";
 import { FiFacebook, FiMail, FiPhone } from "react-icons/fi";
-import UnstyledLink from "../../components/styled/UnstyledLink";
 import Head from "next/head";
+import UnstyledLink from "../../components/styled/UnstyledLink";
+import Page from "../../components/styled/Page";
 
 const InputContainer = styled.div`
   padding: 1rem 0;
@@ -36,25 +36,36 @@ const IconContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const Contact = () => {
-  return <Page>
+const NAME_ID = "name";
+const EMAIL_ID = "email";
+const MESSAGE_ID = "message";
+
+const Contact = () => (
+  <Page>
     <Head>
       <title>Contact Made by Melanie</title>
     </Head>
     <h2>Contact Me</h2>
-    <form name="contact" method="POST" data-netlify={true} action="/contact/success">
+    <form name="contact" method="POST" data-netlify action="/contact/success">
       <input type="hidden" name="form-name" value="contact" />
       <InputContainer>
-        <label htmlFor="name">Your Name:</label>
-        <input type="text" name="name" id="name" />
+        <label htmlFor={NAME_ID}>
+          Your Name:
+          <input type="text" name="name" id={NAME_ID} />
+        </label>
       </InputContainer>
       <InputContainer>
-        <label htmlFor="email">Your Email:</label>
-        <input type="email" name="email" id="email" />
+        <label htmlFor={EMAIL_ID}>
+          Your Email:
+          <input type="email" name="email" id={EMAIL_ID} />
+        </label>
       </InputContainer>
       <InputContainer>
-        <label htmlFor="message">Message:</label>
-        <textarea name="message" id="message" />
+        <label htmlFor={MESSAGE_ID}>
+          Message:
+          <textarea name="message" id={MESSAGE_ID} />
+        </label>
+
       </InputContainer>
       <SubmitContainer>
         <Submit type="submit">Submit</Submit>
@@ -71,7 +82,7 @@ const Contact = () => {
         <FiPhone />
       </UnstyledLink>
     </IconContainer>
-  </Page>;
-};
+  </Page>
+);
 
 export default Contact;

@@ -1,9 +1,10 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { Normalize } from "styled-normalize";
-import Navbar from "../components/Navbar"
-import Cart from "../components/Cart"
-import CartProvider from "../context/Cart";
 import Head from "next/head";
+import PropTypes from "prop-types";
+import Navbar from "../components/Navbar";
+import Cart from "../components/Cart";
+import CartProvider from "../context/Cart";
 
 const Container = styled.div`
   background: linear-gradient(to right, #faaca8, #ddd6f3);
@@ -19,23 +20,35 @@ const Page = styled.div`
 `;
 
 function MyApp({ Component, pageProps }) {
-  return <CartProvider>
-    <Head>
-      <meta charset="utf-8"/>
-      <meta name="description" content="Made by Melanie makes custom homemade crafts."/>
-      <link rel="preconnect" href="https://fonts.gstatic.com"/>
-      <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet"/>
-      <title>Made by Melanie</title>
-    </Head>
-    <Container>
-      <Normalize />
-      <Navbar />
-      <Page>
-        <Component {...pageProps} />
-      </Page>
-      <Cart />
-    </Container>
-  </CartProvider>;
+  return (
+    <CartProvider>
+      <Head>
+        <meta charset="utf-8" />
+        <meta name="description" content="Made by Melanie makes custom homemade crafts." />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet" />
+        <title>Made by Melanie</title>
+      </Head>
+      <Container>
+        <Normalize />
+        <Navbar />
+        <Page>
+          <Component {...pageProps} />
+        </Page>
+        <Cart />
+      </Container>
+    </CartProvider>
+  );
 }
 
-export default MyApp
+MyApp.propTypes = {
+  Component: PropTypes.func,
+  pageProps: PropTypes.shape({})
+};
+
+MyApp.defaultProps = {
+  Component: null,
+  pageProps: {}
+};
+
+export default MyApp;

@@ -1,8 +1,8 @@
-import Page from "../../components/styled/Page"
 import Head from "next/head";
+import Page from "../../components/styled/Page";
 
-const Success = () => {
-  return <Page>
+const Success = () => (
+  <Page>
     <Head>
       <title>Submission Success | Made by Melanie</title>
     </Head>
@@ -11,7 +11,7 @@ const Success = () => {
       Thank you for contacting me!
       I look forward to reading your message.
     </p>
-  </Page>;
-};
+  </Page>
+);
 
 export default Success;

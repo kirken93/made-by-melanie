@@ -1,9 +1,9 @@
-import Page from "../components/styled/Page";
-import useCart from "../hooks/useCart";
 import styled from "styled-components";
 import axios from "axios";
 import Head from "next/head";
 import { loadStripe } from "@stripe/stripe-js";
+import useCart from "../hooks/useCart";
+import Page from "../components/styled/Page";
 
 const Ul = styled.ul`
   padding: 0;
@@ -49,29 +49,44 @@ const Checkout = () => {
     await stripe.redirectToCheckout({ sessionId: data.id });
   };
 
-  return <Page>
-    <Head>
-      <title>Checkout | Made by Melanie</title>
-    </Head>
-    <h2>Checkout</h2>
-    {cart.length > 0
-      ? (<>
-          <Ul>
-            {cart.map(item => {
-              return <Item key={item.id}>
-                <span>{item.qty}x {item.name}</span>
-                <span>${item.qty*item.price/100}</span>
-              </Item>;
-            })}
-          </Ul>
-          <Total>
-            <span>Total</span>
-            <span>${total}</span>
-          </Total>
-          <Button onClick={processPayment}>Process Payment</Button>
-        </>)
-      : <p>Your cart is empty!</p>}
-  </Page>;
+  return (
+    <Page>
+      <Head>
+        <title>Checkout | Made by Melanie</title>
+      </Head>
+      <h2>Checkout</h2>
+      {cart.length > 0
+        ? (
+          <>
+            <Ul>
+              {cart.map((item) => (
+                <Item key={item.id}>
+                  <span>
+                    {item.qty}
+                    x
+                    {" "}
+                    {item.name}
+                  </span>
+                  <span>
+                    $
+                    {(item.qty * item.price) / 100}
+                  </span>
+                </Item>
+              ))}
+            </Ul>
+            <Total>
+              <span>Total</span>
+              <span>
+                $
+                {total}
+              </span>
+            </Total>
+            <Button onClick={processPayment}>Process Payment</Button>
+          </>
+        )
+        : <p>Your cart is empty!</p>}
+    </Page>
+  );
 };
 
 export default Checkout;

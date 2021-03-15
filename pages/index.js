@@ -2,6 +2,7 @@ import Link from "next/link";
 import fs from "fs";
 import matter from "gray-matter";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import UnstyledLink from "../components/styled/UnstyledLink";
 import useCart from "../hooks/useCart";
 
@@ -38,30 +39,40 @@ const renderProduct = (product, add) => {
     add(product);
   };
 
-  return <Link href={product.slug} key={product.id}>
-    <UnstyledLink>
-      <Container>
-        <h1>{product.name}</h1>
-        <button onClick={handleClick}>Add to cart</button>
-        <Price>
-          ${product.price/100}
-        </Price>
-      </Container>
-    </UnstyledLink>
-  </Link>;
+  return (
+    <Link href={product.slug} key={product.id}>
+      <UnstyledLink>
+        <Container>
+          <h1>{product.name}</h1>
+          <button type="button" onClick={handleClick}>Add to cart</button>
+          <Price>
+            $
+            {product.price / 100}
+          </Price>
+        </Container>
+      </UnstyledLink>
+    </Link>
+  );
 };
 
 const HomePage = (props) => {
-  const { cart, addToCart, removeFromCart } = useCart();
-  return <ProductsContainer>
-    {props.products.map(p => renderProduct(p, addToCart))}
-  </ProductsContainer>
+  const { products } = props;
+  const { addToCart } = useCart();
+  return (
+    <ProductsContainer>
+      {products.map((p) => renderProduct(p, addToCart))}
+    </ProductsContainer>
+  );
+};
+
+HomePage.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape).isRequired
 };
 
 export const getStaticProps = async () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
-  const products = filenames.map(filename => {
+  const products = filenames.map((filename) => {
     // read file
     const fileContent = fs.readFileSync(`${directory}/${filename}`).toString();
 
@@ -80,7 +91,7 @@ export const getStaticProps = async () => {
     props: {
       products
     }
-  }
+  };
 };
 
 export default HomePage;

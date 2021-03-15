@@ -2,10 +2,11 @@ import fs from "fs";
 import matter from "gray-matter";
 import marked from "marked";
 import styled from "styled-components";
-import Page from "../../components/styled/Page";
 import Head from "next/head";
-import useCart from "../../hooks/useCart";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
+import PropTypes from "prop-types";
+import Page from "../../components/styled/Page";
+import useCart from "../../hooks/useCart";
 
 const Price = styled.span`
   font-size: 2rem;
@@ -34,37 +35,58 @@ const QuantityButton = styled.button`
   }
 `;
 
-const Product = ({ product: {data, content } }) => {
-  const { cart, addToCart, reduceProductQuantity, removeFromCart } = useCart();
+const Product = ({ product: { data, content } }) => {
+  const {
+    cart, addToCart, reduceProductQuantity, removeFromCart
+  } = useCart();
 
-  const productInCart = cart.find(p => p.id === data.id);
+  const productInCart = cart.find((p) => p.id === data.id);
   const qtyInCart = productInCart ? productInCart.qty : 0;
 
-  return <Page>
-    <Head>
-      <title>{data.name} | Made by Melanie</title>
-    </Head>
-    <h1>{data.name}</h1>
-    <Price>${data.price/100}</Price>
-    <QuantityButtons>
-      <QuantityButton type="button" onClick={() => addToCart(data)}>
-        <FiPlus />
-      </QuantityButton>
-      <QuantityButton type="button" onClick={() => reduceProductQuantity(data)}>
-        <FiMinus />
-      </QuantityButton>
-      <QuantityButton type="button" onClick={() => removeFromCart(data)}>
-        <FiX />
-      </QuantityButton>
-    </QuantityButtons>
-    <div>
-      {qtyInCart
-        ? `${qtyInCart} in your cart`
-        : "This item is not in your cart."
-      }
-    </div>
-    <div dangerouslySetInnerHTML={{ __html: marked(content)}} />
-  </Page>;
+  return (
+    <Page>
+      <Head>
+        <title>
+          {data.name}
+          {" "}
+          | Made by Melanie
+        </title>
+      </Head>
+      <h1>{data.name}</h1>
+      <Price>
+        $
+        {data.price / 100}
+      </Price>
+      <QuantityButtons>
+        <QuantityButton type="button" onClick={() => addToCart(data)}>
+          <FiPlus />
+        </QuantityButton>
+        <QuantityButton type="button" onClick={() => reduceProductQuantity(data)}>
+          <FiMinus />
+        </QuantityButton>
+        <QuantityButton type="button" onClick={() => removeFromCart(data)}>
+          <FiX />
+        </QuantityButton>
+      </QuantityButtons>
+      <div>
+        {qtyInCart
+          ? `${qtyInCart} in your cart`
+          : "This item is not in your cart."}
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: marked(content) }} />
+    </Page>
+  );
+};
+
+Product.propTypes = {
+  product: PropTypes.shape({
+    data: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      price: PropTypes.number
+    }),
+    content: PropTypes.string
+  }).isRequired
 };
 
 export const getStaticPaths = () => {
@@ -72,13 +94,11 @@ export const getStaticPaths = () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
 
-  const paths = filenames.map(filename => {
-    return {
-      params: {
-        product: filename.replace(".md", "")
-      }
-    };
-  });
+  const paths = filenames.map((filename) => ({
+    params: {
+      product: filename.replace(".md", "")
+    }
+  }));
 
   return {
     paths,
