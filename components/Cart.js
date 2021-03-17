@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { FiX, FiPlus, FiMinus } from "react-icons/fi";
 import useCart from "../hooks/useCart";
-import Link from "next/link";
-import UnsytledLink from "../components/styled/UnstyledLink";
 
 const Container = styled.div`
   position: fixed;
@@ -14,7 +12,7 @@ const Container = styled.div`
   background: white;
   width: 400px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  transform: translateX(${props => props.isOpen ? '0' : '100%'});
+  transform: translateX(${(props) => (props.isOpen ? "0" : "100%")});
   transition: transform 0.2s ease-in;
 `;
 
@@ -96,7 +94,9 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { cart, total, isOpen, closeCart, addToCart, reduceProductQuantity, removeFromCart } = useCart();
+  const {
+    cart, total, isOpen, closeCart, addToCart, reduceProductQuantity, removeFromCart
+  } = useCart();
   const router = useRouter();
 
   const navigateToCheckout = () => {
@@ -104,42 +104,54 @@ const Cart = () => {
     router.push("/checkout");
   };
 
-  return <Container isOpen={isOpen}>
-    <XContainer>
-      <X onClick={closeCart} />
-    </XContainer>
-    <Content>
-      <Title>Cart</Title>
-      {cart.length > 0
-        ? (<>
-          <Ul>
-            {cart.map(item => {
-              return <Item key={item.id}>
-                <ItemRow>
-                  <span>
-                    {item.qty}x {item.name}
-                  </span>
-                  <span>${item.qty*item.price/100}</span>
-                </ItemRow>
-                <QuantityButtons>
-                  <QuantityButton type="button" onClick={() => addToCart(item)}><FiPlus /></QuantityButton>
-                  <QuantityButton type="button" onClick={() => reduceProductQuantity(item)}><FiMinus /></QuantityButton>
-                  <QuantityButton type="button" onClick={() => removeFromCart(item)}><FiX /></QuantityButton>
-                </QuantityButtons>
-              </Item>;
-            })}
-          </Ul>
-          <Total>
-            <span>Total</span>
-            <span>${total}</span>
-          </Total>
-          <Button onClick={navigateToCheckout}>Checkout</Button>
-        </>) : (
-          <p>Your cart is empty</p>
-        )}
-      
-    </Content>
-  </Container>;
+  return (
+    <Container isOpen={isOpen}>
+      <XContainer>
+        <X onClick={closeCart} />
+      </XContainer>
+      <Content>
+        <Title>Cart</Title>
+        {cart.length > 0
+          ? (
+            <>
+              <Ul>
+                {cart.map((item) => (
+                  <Item key={item.id}>
+                    <ItemRow>
+                      <span>
+                        {item.qty}
+                        x
+                        {item.name}
+                      </span>
+                      <span>
+                        $
+                        {(item.qty * item.price) / 100}
+                      </span>
+                    </ItemRow>
+                    <QuantityButtons>
+                      <QuantityButton type="button" onClick={() => addToCart(item)}><FiPlus /></QuantityButton>
+                      <QuantityButton type="button" onClick={() => reduceProductQuantity(item)}><FiMinus /></QuantityButton>
+                      <QuantityButton type="button" onClick={() => removeFromCart(item)}><FiX /></QuantityButton>
+                    </QuantityButtons>
+                  </Item>
+                ))}
+              </Ul>
+              <Total>
+                <span>Total</span>
+                <span>
+                  $
+                  {total}
+                </span>
+              </Total>
+              <Button onClick={navigateToCheckout}>Checkout</Button>
+            </>
+          ) : (
+            <p>Your cart is empty</p>
+          )}
+
+      </Content>
+    </Container>
+  );
 };
 
 export default Cart;

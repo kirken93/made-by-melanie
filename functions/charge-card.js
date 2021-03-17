@@ -5,25 +5,23 @@ exports.handler = async (event, context) => {
   const { cart } = JSON.parse(event.body);
 
   const cartWithProducts = cart.map(({ id, qty }) => {
-    const product = products.find(p => p.id === id);
+    const product = products.find((p) => p.id === id);
     return {
       ...product,
       qty
     };
   });
 
-  const lineItems = cartWithProducts.map(product => {
-    return {
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: product.name
-        },
-        unit_amount: product.price
+  const lineItems = cartWithProducts.map((product) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: product.name
       },
-      quantity: product.qty
-    };
-  });
+      unit_amount: product.price
+    },
+    quantity: product.qty
+  }));
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],

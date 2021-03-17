@@ -4,7 +4,7 @@ const matter = require("gray-matter");
 const getProducts = () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
-  const products = filenames.map(filename => {
+  const products = filenames.map((filename) => {
     // read file
     const fileContent = fs.readFileSync(`${directory}/${filename}`).toString();
 

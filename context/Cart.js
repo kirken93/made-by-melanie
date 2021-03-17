@@ -1,7 +1,9 @@
 import { createContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+
 export const Context = createContext();
 
-const Cart = ({children}) => {
+const Cart = ({ children }) => {
   const getInitialCart = () => JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +21,7 @@ const Cart = ({children}) => {
   // update cart in localStorage when it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
-    setTotal(cart.map(item => item.qty*item.price/100).reduce((a, b) => a + b, 0));
+    setTotal(cart.map((item) => ((item.qty * item.price) / 100)).reduce((a, b) => a + b, 0));
   }, [cart]);
 
   const openCart = () => {
@@ -31,7 +33,7 @@ const Cart = ({children}) => {
   };
 
   const addToCart = (product, qty = 1) => {
-    const item = cart.find(i => i.id === product.id);
+    const item = cart.find((i) => i.id === product.id);
     if (item) {
       item.qty += qty;
       setCart([...cart]);
@@ -40,8 +42,12 @@ const Cart = ({children}) => {
     }
   };
 
+  const removeFromCart = (product) => {
+    setCart(cart.filter((i) => i.id !== product.id));
+  };
+
   const reduceProductQuantity = (product) => {
-    const item = cart.find(i => i.id === product.id);
+    const item = cart.find((i) => i.id === product.id);
     if (item) {
       if (item.qty > 1) {
         item.qty -= 1;
@@ -50,10 +56,6 @@ const Cart = ({children}) => {
         removeFromCart(product);
       }
     }
-  };
-
-  const removeFromCart = (product) => {
-    setCart(cart.filter(i => i.id !== product.id));
   };
 
   const clearCart = () => {
@@ -73,6 +75,14 @@ const Cart = ({children}) => {
     clearCart
   };
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
+};
+
+Cart.propTypes = {
+  children: PropTypes.node
+};
+
+Cart.defaultProps = {
+  children: null
 };
 
 export default Cart;
