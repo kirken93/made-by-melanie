@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Normalize } from "styled-normalize";
 import Head from "next/head";
 import PropTypes from "prop-types";
+import { AppProps } from "next/app";
 import Navbar from "../components/Navbar";
 import Cart from "../components/Cart";
 import CartProvider from "../context/Cart";
@@ -19,11 +20,11 @@ const Page = styled.div`
   margin: 0 auto;
 `;
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <Head>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <meta name="description" content="Made by Melanie makes custom homemade crafts." />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet" />

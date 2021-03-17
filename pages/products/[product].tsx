@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Head from "next/head";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 import PropTypes from "prop-types";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Page from "../../components/styled/Page";
 import useCart from "../../hooks/useCart";
 
@@ -89,7 +90,7 @@ Product.propTypes = {
   }).isRequired
 };
 
-export const getStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   // product pages to generate
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
@@ -106,7 +107,7 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const productName = context.params.product;
   const filePath = `${process.cwd()}/content/${productName}.md`;
   const fileContent = fs.readFileSync(filePath).toString();

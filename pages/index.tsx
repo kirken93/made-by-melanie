@@ -3,6 +3,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { GetStaticProps } from "next";
 import UnstyledLink from "../components/styled/UnstyledLink";
 import useCart from "../hooks/useCart";
 
@@ -55,7 +56,7 @@ const renderProduct = (product, add) => {
   );
 };
 
-const HomePage = (props) => {
+const HomePage = (props: { products: any; }) => {
   const { products } = props;
   const { addToCart } = useCart();
   return (
@@ -66,10 +67,10 @@ const HomePage = (props) => {
 };
 
 HomePage.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape).isRequired
+  products: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
   const products = filenames.map((filename) => {
