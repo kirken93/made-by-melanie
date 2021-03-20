@@ -2,6 +2,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import marked from "marked";
 import styled from "styled-components";
+import Image from "next/image";
 import Head from "next/head";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -44,6 +45,20 @@ const Product = ({ product }: { product: FullProduct }) => {
   const productInCart = cart.find((p: FullProduct) => p.id === product.id);
   const qtyInCart = productInCart ? productInCart.qty : 0;
 
+  let image = null;
+  if (product.imgSrc) {
+    image = (
+      <div>
+        <Image
+          src={`/${product.imgSrc}`}
+          alt={`${product.name} image`}
+          height={500}
+          width={500}
+        />
+      </div>
+    );
+  }
+
   return (
     <Page>
       <Head>
@@ -52,6 +67,7 @@ const Product = ({ product }: { product: FullProduct }) => {
         </title>
       </Head>
       <h1>{product.name}</h1>
+      {image}
       <Price>
         {`$${product.price / 100}`}
       </Price>
@@ -104,6 +120,7 @@ export const getStaticProps: GetStaticProps<{ product: FullProduct }> = async (c
         id: data.id,
         name: data.name,
         price: data.price,
+        imgSrc: data.imgSrc ? data.imgSrc : "",
         content
       }
     }

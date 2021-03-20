@@ -119,13 +119,10 @@ const Cart = () => {
                   <Item key={item.id}>
                     <ItemRow>
                       <span>
-                        {item.qty}
-                        x
-                        {item.name}
+                        {`${item.qty}x ${item.name}`}
                       </span>
                       <span>
-                        $
-                        {(item.qty * item.price) / 100}
+                        {`$${(item.qty * item.price) / 100}`}
                       </span>
                     </ItemRow>
                     <QuantityButtons>

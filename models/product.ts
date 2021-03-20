@@ -6,6 +6,7 @@ export interface Product {
 
 export interface FullProduct extends Product {
   content: string;
+  imgSrc: string;
 }
 
 export interface ProductWithSlug extends Product {
