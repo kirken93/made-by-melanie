@@ -31,6 +31,23 @@ module.exports = {
     "react/react-in-jsx-scope": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-props-no-spreading": 0,
-    "react/no-danger": 0
+    "react/no-danger": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never"
+      }
+    ]
+  },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 };
