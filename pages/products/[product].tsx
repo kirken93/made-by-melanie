@@ -2,7 +2,6 @@ import fs from "fs";
 import matter from "gray-matter";
 import marked from "marked";
 import styled from "styled-components";
-import Image from "next/image";
 import Head from "next/head";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -49,9 +48,9 @@ const Product = ({ product }: { product: FullProduct }) => {
   if (product.imgSrc) {
     image = (
       <div>
-        <Image
+        <img
           src={`/${product.imgSrc}`}
-          alt={`${product.name} image`}
+          alt={`${product.name}`}
           height={500}
           width={500}
         />
