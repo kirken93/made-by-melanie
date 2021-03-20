@@ -25,6 +25,8 @@ module.exports = {
     semi: ["error", "always"],
     quotes: ["error", "double"],
     "comma-dangle": ["error", "never"],
+    "no-underscore-dangle": ["error", { allowAfterThis: true }],
+    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }],
     "linebreak-style": [1, "windows"],
     "react/react-in-jsx-scope": 0,
     "react/jsx-filename-extension": 0,

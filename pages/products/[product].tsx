@@ -4,10 +4,10 @@ import marked from "marked";
 import styled from "styled-components";
 import Head from "next/head";
 import { FiPlus, FiMinus, FiX } from "react-icons/fi";
-import PropTypes from "prop-types";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Page from "../../components/styled/Page";
 import useCart from "../../hooks/useCart";
+import { FullProduct } from "../../models/product";
 
 const Price = styled.span`
   font-size: 2rem;
@@ -36,36 +36,33 @@ const QuantityButton = styled.button`
   }
 `;
 
-const Product = ({ product: { data, content } }) => {
+const Product = ({ product }: { product: FullProduct }) => {
   const {
     cart, addToCart, reduceProductQuantity, removeFromCart
   } = useCart();
 
-  const productInCart = cart.find((p) => p.id === data.id);
+  const productInCart = cart.find((p: FullProduct) => p.id === product.id);
   const qtyInCart = productInCart ? productInCart.qty : 0;
 
   return (
     <Page>
       <Head>
         <title>
-          {data.name}
-          {" "}
-          | Made by Melanie
+          {`${product.name} | Made by Melanie`}
         </title>
       </Head>
-      <h1>{data.name}</h1>
+      <h1>{product.name}</h1>
       <Price>
-        $
-        {data.price / 100}
+        {`$${product.price / 100}`}
       </Price>
       <QuantityButtons>
-        <QuantityButton type="button" onClick={() => addToCart(data)}>
+        <QuantityButton type="button" onClick={() => addToCart(product)}>
           <FiPlus />
         </QuantityButton>
-        <QuantityButton type="button" onClick={() => reduceProductQuantity(data)}>
+        <QuantityButton type="button" onClick={() => reduceProductQuantity(product)}>
           <FiMinus />
         </QuantityButton>
-        <QuantityButton type="button" onClick={() => removeFromCart(data)}>
+        <QuantityButton type="button" onClick={() => removeFromCart(product)}>
           <FiX />
         </QuantityButton>
       </QuantityButtons>
@@ -74,20 +71,9 @@ const Product = ({ product: { data, content } }) => {
           ? `${qtyInCart} in your cart`
           : "This item is not in your cart."}
       </div>
-      <div dangerouslySetInnerHTML={{ __html: marked(content) }} />
+      <div dangerouslySetInnerHTML={{ __html: marked(product.content) }} />
     </Page>
   );
-};
-
-Product.propTypes = {
-  product: PropTypes.shape({
-    data: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      price: PropTypes.number
-    }),
-    content: PropTypes.string
-  }).isRequired
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -107,7 +93,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps<{ product: FullProduct }> = async (context) => {
   const productName = context.params.product;
   const filePath = `${process.cwd()}/content/${productName}.md`;
   const fileContent = fs.readFileSync(filePath).toString();
@@ -115,7 +101,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       product: {
-        data,
+        id: data.id,
+        name: data.name,
+        price: data.price,
         content
       }
     }

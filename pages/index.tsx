@@ -2,10 +2,10 @@ import Link from "next/link";
 import fs from "fs";
 import matter from "gray-matter";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { GetStaticProps } from "next";
 import UnstyledLink from "../components/styled/UnstyledLink";
 import useCart from "../hooks/useCart";
+import { ProductWithSlug } from "../models/product";
 
 const ProductsContainer = styled.div`
   display: grid;
@@ -33,22 +33,20 @@ const Price = styled.div`
   padding: 2rem;
   font-size: 3rem;
 `;
-
-const renderProduct = (product, add) => {
-  const handleClick = (event) => {
+const ProductTile = ({ product, add }: { product: ProductWithSlug, add: Function }) => {
+  const handleClick = (event: { stopPropagation: () => void; }) => {
     event.stopPropagation();
     add(product);
   };
 
   return (
-    <Link href={product.slug} key={product.id}>
+    <Link href={product.slug}>
       <UnstyledLink>
         <Container>
           <h1>{product.name}</h1>
           <button type="button" onClick={handleClick}>Add to cart</button>
           <Price>
-            $
-            {product.price / 100}
+            {`$${product.price / 100}`}
           </Price>
         </Container>
       </UnstyledLink>
@@ -56,21 +54,16 @@ const renderProduct = (product, add) => {
   );
 };
 
-const HomePage = (props: { products: any; }) => {
-  const { products } = props;
+const HomePage = ({ products }: { products: Array<ProductWithSlug> }) => {
   const { addToCart } = useCart();
   return (
     <ProductsContainer>
-      {products.map((p) => renderProduct(p, addToCart))}
+      {products.map((p) => <ProductTile key={p.id} product={p} add={addToCart} />)}
     </ProductsContainer>
   );
 };
 
-HomePage.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape({})).isRequired
-};
-
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<{products: Array<ProductWithSlug>}> = async () => {
   const directory = `${process.cwd()}/content`;
   const filenames = fs.readdirSync(directory);
   const products = filenames.map((filename) => {
@@ -83,7 +76,9 @@ export const getStaticProps: GetStaticProps = async () => {
     // return data, adding slug
     const slug = `/products/${filename.replace(".md", "")}`;
     return {
-      ...data,
+      id: data.id,
+      name: data.name,
+      price: data.price,
       slug
     };
   });
