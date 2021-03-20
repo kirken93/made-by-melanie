@@ -29,6 +29,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet" />
         <title>Made by Melanie</title>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4JM1YS152H" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4JM1YS152H');`
+          }}
+        />
       </Head>
       <Container>
         <Normalize />
