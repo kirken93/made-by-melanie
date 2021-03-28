@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <Head>
-        <html lang="en" />
         <meta charSet="utf-8" />
         <meta name="description" content="Made by Melanie makes custom homemade crafts." />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
