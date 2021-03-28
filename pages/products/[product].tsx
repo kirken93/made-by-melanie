@@ -49,7 +49,7 @@ const Product = ({ product }: { product: FullProduct }) => {
     image = (
       <div>
         <img
-          src={`/${product.imgSrc}`}
+          src={product.imgSrc}
           alt={`${product.name}`}
           height={500}
           width={500}
